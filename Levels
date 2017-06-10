@@ -1,0 +1,383 @@
+import pygame
+from classes import Player, Shot, Enemy, PickUp, Verifications, Ui, Draw
+
+
+def Stats(main, shiplvl, weponlvl, ship):
+    font = pygame.font.SysFont("Arial", 25, True)
+    if weponlvl == 1:
+        label = font.render("Damage: 25", 1, (150, 150, 150))
+        main.blit(label, (700, 100))
+        label = font.render("Shot Counter: 1", 1, (150, 150, 150))
+        main.blit(label, (700, 130))
+        label = font.render("Cooldown: 0.5", 1, (150, 150, 150))
+        main.blit(label, (700, 160))
+        label = font.render("Dps: 50", 1, (150, 150, 150))
+        main.blit(label, (700, 190))
+    if weponlvl == 2:
+        label = font.render("Damage: 20", 1, (150, 150, 150))
+        main.blit(label, (700, 100))
+        label = font.render("Shot Counter: 2", 1, (150, 150, 150))
+        main.blit(label, (700, 130))
+        label = font.render("Cooldown: 0.5", 1, (150, 150, 150))
+        main.blit(label, (700, 160))
+        label = font.render("Dps: 80", 1, (150, 150, 150))
+        main.blit(label, (700, 190))
+    if weponlvl == 3:
+        label = font.render("Damage: 50", 1, (150, 150, 150))
+        main.blit(label, (700, 100))
+        label = font.render("Shot Counter: 1", 1, (150, 150, 150))
+        main.blit(label, (700, 130))
+        label = font.render("Cooldown: 0.5", 1, (150, 150, 150))
+        main.blit(label, (700, 160))
+        label = font.render("Dps: 100", 1, (150, 150, 150))
+        main.blit(label, (700, 190))
+    if weponlvl == 4:
+        label = font.render("Damage: 15/40", 1, (150, 150, 150))
+        main.blit(label, (700, 100))
+        label = font.render("Shot Counter: 3", 1, (150, 150, 150))
+        main.blit(label, (700, 130))
+        label = font.render("Cooldown: 0.5", 1, (150, 150, 150))
+        main.blit(label, (700, 160))
+        label = font.render("Dps: 140", 1, (150, 150, 150))
+        main.blit(label, (700, 190))
+
+    if shiplvl == 1:
+        label = font.render("Life: 100", 1, (150, 150, 150))
+        main.blit(label, (700, 250))
+    if shiplvl == 2:
+        label = font.render("Life: 150", 1, (150, 150, 150))
+        main.blit(label, (700, 250))
+    if shiplvl == 3:
+        label = font.render("Life: 200", 1, (150, 150, 150))
+        main.blit(label, (700, 250))
+    if shiplvl == 4:
+        label = font.render("Life: 250", 1, (150, 150, 150))
+        main.blit(label, (700, 250))
+
+def Ships(main, shiplvl, weaponlvl, ship):
+    if weaponlvl == 1 and shiplvl == 1:
+        image = pygame.image.load('Assets/player1.1.png')
+        ship = 'Assets/player1.1.png'
+    elif weaponlvl == 1 and shiplvl == 3:
+        image = pygame.image.load('Assets/player3.1.png')
+        ship = 'Assets/player3.1.png'
+    elif weaponlvl == 2 and shiplvl == 1:
+        image = pygame.image.load('Assets/player1.2.png')
+        ship = 'Assets/player1.2.png'
+    elif weaponlvl == 2 and shiplvl == 3:
+        image = pygame.image.load('Assets/player3.2.png')
+        ship = 'Assets/player3.2.png'
+    elif weaponlvl == 3 and shiplvl == 1:
+        image = pygame.image.load('Assets/player1.3.png')
+        ship = 'Assets/player1.3.png'
+    elif weaponlvl == 3 and shiplvl == 3:
+        image = pygame.image.load('Assets/player3.3.png')
+        ship = 'Assets/player3.3.png'
+    elif weaponlvl == 4 and shiplvl == 1:
+        image = pygame.image.load('Assets/player1.4.png')
+        ship = 'Assets/player1.4.png'
+    elif weaponlvl == 4 and shiplvl == 3:
+        image = pygame.image.load('Assets/player3.4.png')
+        ship = 'Assets/player3.4.png'
+    else:
+        image = pygame.image.load('Assets/None.png')
+    image = pygame.transform.scale(image, (200,200))
+    main.blit(image, (375, 400))
+    return shiplvl, weaponlvl, ship
+
+def Button(money, main, running, shiplvl, weaponlvl, ship):
+    mouse = pygame.mouse.get_pos()
+
+    image = pygame.image.load('Assets/btnBack1.png')
+    main.blit(image, (50, 50))
+    if mouse[0] > 50 and mouse[0] < 150 and mouse[1] > 50 and mouse[1] < 100:
+        image = pygame.image.load('Assets/btnBack1.1.png')
+        main.blit(image, (50, 50))
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if pygame.mouse.get_pressed()[0]:
+                    running = False
+
+    font = pygame.font.SysFont("Arial", 30, True)
+    label = font.render(str(money), 1, (255, 255, 0))
+    main.blit(label, (475, 50))
+
+    font = pygame.font.SysFont("Arial", 40, True)
+    if weaponlvl == 1:
+        label = font.render("lvl1", 1, (255, 255, 0))
+    if weaponlvl == 2:
+        label = font.render("lvl2", 1, (255, 255, 0))
+    if weaponlvl == 3:
+        label = font.render("lvl3", 1, (255, 255, 0))
+    if weaponlvl == 4:
+        label = font.render("lvl4", 1, (255, 255, 0))
+    main.blit(label, (440, 205))
+
+    image = pygame.image.load('Assets/btnArrowL1.png')
+    main.blit(image, (350, 200))
+    if mouse[0] > 350 and mouse[0] < 400 and mouse[1] > 200 and mouse[1] < 250:
+        image = pygame.image.load('Assets/btnArrowL1.1.png')
+        main.blit(image, (350, 200))
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if pygame.mouse.get_pressed()[0]:
+                    if weaponlvl != 1:
+                        weaponlvl-=1
+                        money += 50
+
+
+    image = pygame.image.load('Assets/btnArrowR1.png')
+    main.blit(image, (550, 200))
+    if mouse[0] > 550 and mouse[0] < 600 and mouse[1] > 200 and mouse[1] < 250:
+        image = pygame.image.load('Assets/btnArrowR1.1.png')
+        main.blit(image, (550, 200))
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if pygame.mouse.get_pressed()[0]:
+                    if money >= 50:
+                        if weaponlvl != 4:
+                            weaponlvl+=1
+                            money-=50
+
+
+    font = pygame.font.SysFont("Arial", 40, True)
+    if shiplvl == 1:
+        label = font.render("lvl1", 1, (255, 255, 0))
+    if shiplvl == 2:
+        label = font.render("lvl2", 1, (255, 255, 0))
+    if shiplvl == 3:
+            label = font.render("lvl3", 1, (255, 255, 0))
+    if shiplvl == 4:
+                label = font.render("lvl4", 1, (255, 255, 0))
+    main.blit(label, (440, 305))
+
+    image = pygame.image.load('Assets/btnArrowL1.png')
+    main.blit(image, (350, 300))
+    if mouse[0] > 350 and mouse[0] < 400 and mouse[1] > 300 and mouse[1] < 350:
+        image = pygame.image.load('Assets/btnArrowL1.1.png')
+        main.blit(image, (350, 300))
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if pygame.mouse.get_pressed()[0]:
+                    if shiplvl != 1:
+                        shiplvl -=1
+                        money += 50
+
+    image = pygame.image.load('Assets/btnArrowR1.png')
+    main.blit(image, (550, 300))
+    if mouse[0] > 550 and mouse[0] < 600 and mouse[1] > 300 and mouse[1] < 350:
+        image = pygame.image.load('Assets/btnArrowR1.1.png')
+        main.blit(image, (550, 300))
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if pygame.mouse.get_pressed()[0]:
+                    if money >= 50:
+                        if shiplvl != 4:
+                            shiplvl +=1
+                            money -= 50
+
+    shiplvl, weaponlvl, ship = Ships(main, shiplvl, weaponlvl, ship)
+    Stats(main, shiplvl, weaponlvl, ship)
+    return money, running, shiplvl, weaponlvl, ship
+
+def Shop(money, shiplvl, weaponlvl, ship):
+    pygame.init()
+    main = pygame.display.set_mode((1000,700))
+
+    clock = pygame.time.Clock()
+
+    running = True
+    while running:
+        main.fill((25, 0, 100))
+        money, running, shiplvl, weaponlvl, ship = Button(money, main, running, shiplvl, weaponlvl, ship)
+
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_F1: money += 25
+            if event.type == pygame.QUIT: exit(0)
+
+        pygame.display.update()
+        clock.tick(60)
+
+    return money, shiplvl, weaponlvl, ship
+
+def Level1(money, ship, shiplvl, weaponlvl):
+    text = 0
+    deathCounter = 0
+    running = True
+    main = pygame.display.set_mode((1000, 700))
+    player = Player(ship, shiplvl)
+    shot = [Shot(-10, -10, 25, 5, False, True, 'Assets/shot.png', 1)]
+    picks = [PickUp(-50, -50, 1)]
+
+    for x in range(10):
+        for y in range(2):
+            if x == 0 and y == 0:
+                enemy = [Enemy(-50 + 10 * x, -100 * x, 100, 5, 1, 'Assets/enemy.png', (100 * x + 25, 100))]
+            else:
+                if y == 1:
+                    enemy += [
+                        Enemy(-50 + 10 * x, -100 * x, 100, 5, 1, 'Assets/enemy.png', (100 * x + 25, 100 - 75 * y))]
+                else:
+                    enemy += [
+                        Enemy(-50 + 10 * x, -100 * x + 10, 100, 5, 1, 'Assets/enemy.png', (100 * x + 25, 100 - 75 * y))]
+
+    clock = pygame.time.Clock()
+
+    while running:
+
+        # Change
+        main.fill((25, 0, 100))
+
+        text, running = player.Keys(shot, text, running, weaponlvl)
+        for x in range(len(shot)):
+            if len(shot) > x:
+                shot[x].Moviment()
+        for x in range(len(enemy)):
+            if len(enemy) > x:
+                enemy[x].Moviment(shot, player)
+        for x in range(len(picks)):
+            picks[x].Moviment()
+
+        # Verifications
+
+        money, deathCounter, text, running = Verifications(player, enemy, shot, picks, deathCounter, 20, text, running, money, shiplvl)
+
+        # Display
+        text = Ui(main, player, enemy, text, shiplvl)
+        Draw(main, player, shot, enemy, picks)
+        if player.life<=0:
+            gg = pygame.image.load('Assets/gameover.jpg')
+            main.blit(gg, (250, 250))
+            pygame.display.update()
+            sound2 = pygame.mixer.Sound("Assets/airbomb.wav")
+            sound2.play()
+            pygame.time.delay(3000)
+            break
+        clock.tick(60)
+    return money
+
+def Level2(money, ship, shiplvl, weaponlvl):
+    text = 0
+    deathCounter = 0
+    running = True
+
+    main = pygame.display.set_mode((1000, 700))
+    player = Player(ship, shiplvl)
+    shot = [Shot(-10, -10, 25, 5, False, True, 'Assets/shot.png', 1)]
+    picks = [PickUp(-50, -50, 1)]
+
+    enemy = [Enemy(475, 150, 100, 2, 0, 'Assets/enemy.png', (0, 0))]
+    enemy += [Enemy(475, 250, 100, 2, 0, 'Assets/enemy.png', (0, 0))]
+    enemy += [Enemy(475, 350, 100, 2, 0, 'Assets/enemy.png', (0, 0))]
+    enemy += [Enemy(475, 450, 100, 2, 0, 'Assets/enemy.png', (0, 0))]
+
+    enemy += [Enemy(475, 150, 100, 3, 0, 'Assets/enemy.png', (0, 0))]
+    enemy += [Enemy(475, 250, 100, 3, 0, 'Assets/enemy.png', (0, 0))]
+    enemy += [Enemy(475, 350, 100, 3, 0, 'Assets/enemy.png', (0, 0))]
+    enemy += [Enemy(475, 450, 100, 3, 0, 'Assets/enemy.png', (0, 0))]
+
+    #for x in range(9):
+    #    enemy += [Enemy(350+25*x, -100, 100, 0, 1, 'Assets/enemy.png', (75+100*x, 200))]
+
+    enemy += [Enemy(350 + 25, -100, 100, 0, 1, 'Assets/enemy.png', (75, 200))]
+    enemy += [Enemy(350 + 50, -100, 100, 0, 1, 'Assets/enemy.png', (175, 200))]
+    enemy += [Enemy(350 + 50, -100, 100, 0, 1, 'Assets/enemy.png', (275, 200))]
+    enemy += [Enemy(350 + 75, -100, 100, 0, 1, 'Assets/enemy.png', (375, 200))]
+    enemy += [Enemy(350 + 100, -100, 100, 0, 1, 'Assets/enemy.png', (475, 200))]
+    enemy += [Enemy(350 + 125, -100, 100, 0, 1, 'Assets/enemy.png', (575, 200))]
+    enemy += [Enemy(350 + 150, -100, 100, 0, 1, 'Assets/enemy.png', (675, 200))]
+    enemy += [Enemy(350 + 175, -100, 100, 0, 1, 'Assets/enemy.png', (775, 200))]
+    enemy += [Enemy(350 + 200, -100, 100, 0, 1, 'Assets/enemy.png', (875, 200))]
+    #enemy += [Enemy(350 + 225, -100, 100, 0, 1, 'Assets/enemy.png', (75 + 900, 200))]
+
+    enemy += [Enemy(450, 75, 500, 4, 0, 'Assets/enemy1.png', (0, 0))]
+
+    clock = pygame.time.Clock()
+    while running:
+        # Change
+        main.fill((25, 0, 100))
+
+        text, running = player.Keys(shot, text, running, weaponlvl)
+        for x in range(len(shot)):
+            if len(shot) > x:
+                shot[x].Moviment()
+        for x in range(len(enemy)):
+            if len(enemy) > x:
+                enemy[x].Moviment(shot, player)
+        for x in range(len(picks)):
+            picks[x].Moviment()
+
+        # Verifications
+        money, deathCounter, text, running = Verifications(player, enemy, shot, picks, deathCounter, 18, text, running, money, shiplvl)
+
+        # Display
+        text = Ui(main, player, enemy, text, shiplvl)
+        Draw(main, player, shot, enemy, picks)
+        if player.life<=0:
+            gg = pygame.image.load('Assets/gameover.jpg')
+            main.blit(gg, (250, 250))
+            pygame.display.update()
+            sound2 = pygame.mixer.Sound("Assets/airbomb.wav")
+            sound2.play()
+            pygame.time.delay(3000)
+            break
+        clock.tick(60)
+    return money
+
+def Level3(money, ship, shiplvl, weaponlvl):
+    text = 0
+    deathCounter = 0
+    running = True
+
+    main = pygame.display.set_mode((1000, 700))
+    player = Player(ship, shiplvl)
+    shot = [Shot(-10, -10, 25, 5, False, True, 'Assets/shot.png', 1)]
+    picks = [PickUp(-50, -50, 1)]
+
+
+    enemy = [Enemy(75, -200, 250, 2, 1, 'Assets/enemy2.png', (75, 200))]
+    enemy += [Enemy(175, -200, 250, 2, 1, 'Assets/enemy2.png', (175, 200))]
+    enemy += [Enemy(275, -200, 250, 2, 1, 'Assets/enemy2.png', (275, 200))]
+    enemy += [Enemy(375, -200, 250, 2, 1, 'Assets/enemy2.png', (375, 200))]
+    enemy += [Enemy(475, -200, 250, 1, 1, 'Assets/enemy2.png', (475, 200))]
+    enemy += [Enemy(575, -200, 250, 3, 1, 'Assets/enemy2.png', (575, 200))]
+    enemy += [Enemy(675, -200, 250, 3, 1, 'Assets/enemy2.png', (675, 200))]
+    enemy += [Enemy(775, -200, 250, 3, 1, 'Assets/enemy2.png', (775, 200))]
+    enemy += [Enemy(875, -200, 250, 3, 1, 'Assets/enemy2.png', (875, 200))]
+    enemy += [Enemy(575, 100, 1000, 4, 0, 'Assets/enemy3.png', (0, 0))]
+
+    clock = pygame.time.Clock()
+    while running:
+        # Change
+        main.fill((25, 0, 100))
+
+        text, running = player.Keys(shot, text, running, weaponlvl)
+        for x in range(len(shot)):
+            if len(shot) > x:
+                shot[x].Moviment()
+        for x in range(len(enemy)):
+            if len(enemy) > x:
+                enemy[x].Moviment(shot, player)
+        for x in range(len(picks)):
+            picks[x].Moviment()
+
+        # Verifications
+        money, deathCounter, text, running = Verifications(player, enemy, shot, picks, deathCounter, 10, text, running, money, shiplvl)
+
+        # Display
+        text = Ui(main, player, enemy, text, shiplvl)
+        Draw(main, player, shot, enemy, picks)
+        if player.life<=0:
+            gg = pygame.image.load('Assets/gameover.jpg')
+            main.blit(gg, (250, 250))
+            pygame.display.update()
+            sound2 = pygame.mixer.Sound("Assets/airbomb.wav")
+            sound2.play()
+            pygame.time.delay(3000)
+            break
+        clock.tick(60)
+    return money
+
+def Level4():
+    print("WORK IN PROGRESS")
