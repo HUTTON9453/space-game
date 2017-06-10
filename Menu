@@ -1,0 +1,111 @@
+import pygame
+import Levels
+#定義按鈕
+def Buttons(money, shiplvl, weaponlvl, ship):
+    #設定各按鈕位置
+    image = pygame.image.load('Assets/btn1.png')
+    main.blit(image, (50, 250))
+    image = pygame.image.load('Assets/btn2.png')
+    main.blit(image, (125, 250))
+    image = pygame.image.load('Assets/btn3.png')
+    main.blit(image, (200, 250))
+    image = pygame.image.load('Assets/btn4.png')
+    main.blit(image, (275, 250))
+    image = pygame.image.load('Assets/btnShop1.png')
+    main.blit(image, (50, 350))
+    #獲取滑鼠位置
+    mouse = pygame.mouse.get_pos()
+    #點擊按鈕1
+    if mouse[0] > 50 and mouse[0] < 100 and mouse[1] > 250 and mouse[1] < 300:
+        image = pygame.image.load('Assets/btn1.1.png')
+        main.blit(image, (50, 250))
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:#點擊觸發
+                if pygame.mouse.get_pressed()[0]:#以右鍵點擊
+                    money = Levels.Level1(money, ship, shiplvl, weaponlvl)#建立關卡畫面回傳得到總金錢
+                    pygame.mouse.set_visible(True)#顯示游標
+                    print(money)#顯示得到金錢
+    #點擊按鈕2
+    if mouse[0] > 125 and mouse[0] < 175 and mouse[1] > 250 and mouse[1] < 300:
+        image = pygame.image.load('Assets/btn2.1.png')
+        main.blit(image, (125, 250))
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:#點擊觸發
+                if pygame.mouse.get_pressed()[0]:#以右鍵點擊
+                    money = Levels.Level2(money, ship, shiplvl, weaponlvl)#建立關卡畫面回傳得到總金錢
+                    pygame.mouse.set_visible(True)#顯示游標
+                    print(money)#顯示得到金錢
+    #點擊按鈕3
+    if mouse[0] > 200 and mouse[0] < 250 and mouse[1] > 250 and mouse[1] < 300:
+        image = pygame.image.load('Assets/btn3.1.png')
+        main.blit(image, (200, 250))
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:#點擊觸發
+                if pygame.mouse.get_pressed()[0]:#以右鍵點擊
+                    Levels.Level3(money, ship, shiplvl, weaponlvl)#建立關卡畫面回傳得到總金錢
+                    pygame.mouse.set_visible(True)#顯示游標
+                    print(money)#顯示得到金錢
+    #點擊按鈕4
+    if mouse[0] > 275 and mouse[0] < 325 and mouse[1] > 250 and mouse[1] < 300:
+        image = pygame.image.load('Assets/btn4.1.png')
+        main.blit(image, (275, 250))
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:#點擊觸發
+                if pygame.mouse.get_pressed()[0]:#以右鍵點擊
+                    Levels.Level4()#建立關卡畫面回傳得到總金錢
+                    pygame.mouse.set_visible(True)#顯示游標
+                    print(money)#顯示得到金錢
+    #點擊商店
+    if mouse[0] > 50 and mouse[0] < 150 and mouse[1] > 350 and mouse[1] < 400:
+        image = pygame.image.load('Assets/btnShop1.1.png')
+        main.blit(image, (50, 350))
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:#點擊觸發
+                if pygame.mouse.get_pressed()[0]:#以右鍵點擊
+                    money, shiplvl, weaponlvl, ship = Levels.Shop(money, shiplvl, weaponlvl, ship)
+                    pygame.mouse.set_visible(True)#顯示游標
+    return money, shiplvl, weaponlvl, ship
+def leave():#離開
+    pygame.quit()
+
+
+def Main():
+    
+    global money, playerLifem, playerAmmo, shiplvl, weaponlvl, ship
+    imgy = -1000
+    money = 0
+
+    pygame.mixer.music.load("Assets/music3.wav")
+    pygame.mixer.music.play(5)
+
+    while 1:#無限迴圈
+
+        main.fill((25, 0, 100))
+        image = pygame.image.load('Assets/more.jpg')
+        main.blit(image, (0, imgy))
+        imgy += 0.5#讓背景移動
+        image = pygame.image.load('Assets/menu.png')
+        main.blit(image, (250, 25))
+
+        money, shiplvl, weaponlvl, ship = Buttons(money, shiplvl, weaponlvl, ship)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:#結束程式
+                exit(0)
+                leave()    
+        pygame.display.update()
+        clock.tick(60)#設定畫面更新率
+
+if __name__ == '__main__':#分辨是直接執行或被import
+    money = 0
+    playerLife = 0
+    playerAmmo = 10
+    ship = 'Assets/player1.1.png'
+    weaponlvl = 1
+    shiplvl = 1
+
+    pygame.init()
+    main = pygame.display.set_mode((1000,700))
+
+    clock = pygame.time.Clock()
+    Main()
